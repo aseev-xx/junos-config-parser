@@ -1,0 +1,53 @@
+firewall {
+# test comment
+    family inet {
+		replace:filter fw-global {
+            term allow1 { # test comment2
+                from {
+                    source-address {
+                        127.0.0.0/26;
+						#test comment 3;
+                        127.0.1.0/24;
+                    }
+                    destination-address {
+                        127.0.2.0/23;
+                    }
+                    protocol udp;
+                    destination-port 1;
+                }
+                then {
+					accept;
+				}
+            }
+            term http1 {
+                from {
+                    source-prefix-list {
+                        pl_DEV;
+                        pl_SRV;
+                    }
+                    destination-prefix-list {
+                        pl_DMZ;
+                    }
+                    protocol tcp;
+                    destination-port [ http 443 ];
+                }
+                then accept;
+            }
+            term snmp {
+                from {
+                    source-address {
+                        127.0.4.11/32;
+                    }
+                    destination-address {
+                        127.0.5.0/11;
+                        127.0.6.0/13;
+                    }
+                    protocol udp;
+                    source-port 1024-65535;
+                    destination-port 161;
+                }
+                then accept;
+            }
+        }
+    }
+}
