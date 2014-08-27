@@ -61,7 +61,7 @@ while(<>){
 	elsif( /^}$/ ){
 		$cur_struct = pop @stack;
 	}
-	elsif( /^(.*)\s+\[\s*([^]]+)\s*\];$/ ){
+	elsif( /^(.*?)\s*\[\s*([^]]+)\s*\];$/ ){
 		my $key = $1;
 		${$cur_struct}->{$key} = [map {$key =~ /-port/ && $_ !~ /^\d+$/ && exists $port_map->{$_} ? $port_map->{$_} : $_} split(/\s+/, $2)];
 	}
